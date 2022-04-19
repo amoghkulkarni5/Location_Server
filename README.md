@@ -5,7 +5,7 @@ pip install flask aiohttp
 
 ### Running
 
-$ source webapps_env/bin/activate
-$ export FLASK_APP=project
-$ export FLASK_DEBUG=1
-$ flask run
+$ source webapps_env/bin/activate <br>
+$ export FLASK_APP=project <br>
+$ export FLASK_DEBUG=1 <br>
+$ flask run <br>
