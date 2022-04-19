@@ -1,9 +1,9 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request, url_for
 from typing import List
-import json
 import aiohttp
 
 # ========================================= HELPER CLASSES ==========================================================
+from werkzeug.utils import redirect
 
 
 async def fetch(session, url):
@@ -40,11 +40,11 @@ class LocationServer:
         self.location_servers = location_servers
         self.available_data_servers = data_servers
 
-    def get_display_data(self):
-        return {
-            "data_servers": json.dumps(self.available_data_servers),
-            "location_server": json.dumps(self.location_servers)
-        }
+    def get_location_servers_for_ui(self):
+        return self.location_servers
+
+    def get_data_servers_for_ui(self):
+        return self.available_data_servers
 
     def add_location_server(self, location_server_ip: str):
         """
@@ -117,15 +117,22 @@ ls = LocationServer()
 
 @main.route('/')
 def index():
-    return ls.get_display_data()
+    data_servers = ls.get_data_servers_for_ui()
+    location_servers = ls.get_location_servers_for_ui()
+    return render_template("index.html", data_servers=data_servers, location_servers=location_servers)
+
+
+@main.route('/add-remove-servers')
+def add_remove_servers():
+    return render_template('add_remove_servers.html')
 
 
 # Adds location server to list of location servers to be checked
-@main.route('/add-location-server')
+@main.route('/add-location-server', methods=['POST'])
 def add_location_server():
-    location_server = " IP ADDRESS "
-    ls.add_location_server(location_server)
-    return f"Added: Location server {location_server}"
+    ip = request.form.get('ip')
+    ls.add_location_server(ip)
+    return redirect(url_for('main.index'))
 
 
 # Removes location server from list of location servers to be checked
@@ -137,11 +144,11 @@ def remove_location_server():
 
 
 # Adds new data server to list of data servers
-@main.route('/add-data-server')
+@main.route('/add-data-server', methods=['POST'])
 def add_data_server():
-    data_server = " IP ADDRESS "
-    ls.get_data_server(data_server)
-    return f"Added: Data server {data_server}"
+    ip = request.form.get('ip')
+    ls.add_data_server(ip)
+    return redirect(url_for('main.index'))
 
 
 # Removes data server from list -- how to handle?

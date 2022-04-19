@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3> Data Server IPs </h3>
+<ul>
+    {% for server in data_servers %}
+
+    <li>{{ server.ip_address }}</li>
+
+    {%endfor%}
+</ul>
+
+<br>
+
+<h3> Location Server IPs </h3>
+<ul>
+    {% for server in location_servers %}
+
+    <li>{{ server.ip_address }}</li>
+
+    {%endfor%}
+</ul>
+
+{% endblock %}
