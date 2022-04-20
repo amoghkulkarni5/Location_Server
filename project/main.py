@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, render_template, request, url_for, jsonify
 from typing import List
 import aiohttp
 
@@ -186,10 +186,29 @@ def write_from_ui():
 
 
 # Adds new data server to list of data servers
-@main.route('/get-data-server', methods=['POST'])
+@main.route('/get-data-server', methods=['GET'])
 def get_data_server():
     key = request.form.get('get-data-server-key')
     # data_server = ls.get_data_server(key)
     data_server = key
     return render_template('read_write_result_ui.html', data_server=data_server, value=None, msg='Got Data Server')
+
+
+@main.route('/read')
+def read():
+    key = request.json['key']
+
+    # Use ls object to return data server so client can send request to data server itself
+    d = {'dummykey': 'dummyval'}
+    return jsonify(d)
+
+
+@main.route('/write', methods=['POST'])
+def write():
+    key = request.json['key']
+    value = request.json['value']
+
+    # Use ls object to write key and value to data server
+    d = {'dummykey': 'dummyval'}
+    return jsonify(d)
 
