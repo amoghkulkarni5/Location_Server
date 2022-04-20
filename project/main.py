@@ -143,6 +143,12 @@ def remove_location_server():
     return f"Removed: Location server {location_server}"
 
 
+# Displays the form for UI actions.
+@main.route('/read-write-form')
+def read_write_form():
+    return render_template('read_write_form.html')
+
+
 # Adds new data server to list of data servers
 @main.route('/add-data-server', methods=['POST'])
 def add_data_server():
@@ -160,8 +166,30 @@ def remove_data_server():
 
 
 # Fetches the appropriate data server for given key
-@main.route('/get-data-server')
+@main.route('/read-from-ui', methods=['POST'])
+def read_from_ui():
+    key = request.form.get('read-key')
+    # data_server = ls.get_data_server(key)
+    data_server = key
+    value = key  # To be replaced with HTTP call to data server
+    return render_template('read_write_result_ui.html', data_server=data_server, value=value, msg='Value Read Successfully')
+
+
+# Adds new data server to list of data servers
+@main.route('/write-from-ui', methods=['POST'])
+def write_from_ui():
+    key = request.form.get('write-key')
+    value = request.form.get('write-value')
+    # data_server = ls.get_data_server(key)
+    data_server = key
+    return render_template('read_write_result_ui.html', data_server=data_server, value=value, msg='Value Successfully Written')
+
+
+# Adds new data server to list of data servers
+@main.route('/get-data-server', methods=['POST'])
 def get_data_server():
-    key = "keystring"
-    data_server = ls.get_data_server(key)
-    return f"Obtained data server: {data_server}"
+    key = request.form.get('get-data-server-key')
+    # data_server = ls.get_data_server(key)
+    data_server = key
+    return render_template('read_write_result_ui.html', data_server=data_server, value=None, msg='Got Data Server')
+

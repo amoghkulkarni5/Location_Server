@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="title"> {{ msg }} </h1>
+
+<h4>  <b> Data Server IP:  </b> {{data_server}} </h4>
+{% if value %}
+    <h4>  <b> Value:  </b> {{value}} </h4>
+{% endif %}
+
+{% endblock %}

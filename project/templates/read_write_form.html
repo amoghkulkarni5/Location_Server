@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Read Value</h3>
+    <div class="box">
+        <form method="POST" action="/read-from-ui">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="read-key" placeholder="Enter Key" autofocus="">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Read Value</button>
+        </form>
+    </div>
+
+    <h3 class="title">Write Value</h3>
+    <div class="box">
+        <form method="POST" action="/write-from-ui">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="write-key" placeholder="Enter Key" autofocus="">
+                </div>
+                <div class="control">
+                    <input class="input is-large" type="text" name="write-value" placeholder="Enter Value" autofocus="">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Write Value</button>
+        </form>
+    </div>
+
+    <h3 class="title">Get Data Server</h3>
+    <div class="box">
+        <form method="POST" action="/get-data-server">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="get-data-server-key" placeholder="Enter Key" autofocus="">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Show data server</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
