@@ -8,4 +8,4 @@ pip install flask aiohttp
 $ source webapps_env/bin/activate <br>
 $ export FLASK_APP=project <br>
 $ export FLASK_DEBUG=1 <br>
-$ flask run <br>
+flask run -h localhost -p [port_number] <br>

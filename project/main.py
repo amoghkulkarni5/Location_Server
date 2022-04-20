@@ -78,6 +78,7 @@ class LocationServer:
         urls = (server.get_ip() for server in self.location_servers)
         async with aiohttp.ClientSession() as session:
             for url in urls:
+                url = f"{url}/single-read"
                 result.append(await fetch(session, url))
 
         # Iterate over result set to get required value and send appropriate response
@@ -90,6 +91,11 @@ class LocationServer:
         Traverses Trie in required order for data locality, and returns the data server.
         If above is not fulfilled, add a new data server to trie for this key and return it.
         If no data servers are available, return None.
+        """
+
+    async def single_read(self):
+        """
+        Traverses Trie in on this server only to check if key exists.
         """
 
     async def get_data_server(self, key: str):
@@ -200,6 +206,14 @@ def read():
 
     # Use ls object to return data server so client can send request to data server itself
     d = {'dummykey': 'dummyval'}
+    return jsonify(d)
+
+
+# Same as read, but does not check other location servers
+@main.route('/single-read')
+def single_read():
+    key = request.json['key']
+    d = {'value': ls.single_read(key)}
     return jsonify(d)
 
 
